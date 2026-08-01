@@ -27,6 +27,11 @@
 # réglages d'IDE, propres à chaque poste
 .idea/
 
+# Sources fournies par le client (39 Mo : PDF de la charte, menu, HEIC, photos
+# brutes). Conservées en local, hors du dépôt : ce qui sert au site a été
+# exporté dans public/brand/.
+Dossier client Bluebird/
+
 # debug
 npm-debug.log*
 yarn-debug.log*

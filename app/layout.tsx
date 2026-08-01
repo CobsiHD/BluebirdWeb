@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Cormorant, Josefin_Sans } from "next/font/google";
 import "./globals.css";
+import NavigationAncres from "./components/NavigationAncres";
 
 /**
  * Typographies de la charte Bluebird (alternatives web fidèles) :
@@ -72,7 +73,10 @@ export default function RootLayout({
       data-scroll-behavior="smooth"
       className={`${fontDisplay.variable} ${fontBody.variable} antialiased`}
     >
-      <body>{children}</body>
+      <body>
+        <NavigationAncres />
+        {children}
+      </body>
     </html>
   );
 }

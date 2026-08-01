@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "eslint",
     "instagram:token": "node scripts/instagram-token.mjs",
-    "instagram:liens": "node scripts/instagram-links.mjs"
+    "instagram:liens": "node scripts/instagram-links.mjs",
+    "images:prechauffer": "node scripts/prechauffer-images.mjs"
   },
   "dependencies": {
     "framer-motion": "^12.42.2",

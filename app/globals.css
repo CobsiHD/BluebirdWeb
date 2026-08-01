@@ -1,0 +1,68 @@
+@import "tailwindcss";
+
+/* ============================================================
+   BLUEBIRD — Design System
+   Charte graphique : Malorie Visuals, 2024
+   Palette + typographies déclarées en tokens Tailwind v4.
+   ============================================================ */
+
+@theme inline {
+  /* --- Couleurs primaires --- */
+  --color-bb-black: #000000;
+  --color-bb-white: #ffffff;
+  --color-bb-red: #870010;
+
+  /* --- Couleurs secondaires (profondeur) --- */
+  --color-bb-red-deep: #630010;
+  --color-bb-red-deeper: #550010;
+  --color-bb-gray-900: #292929;
+  --color-bb-gray-500: #5e5e5e;
+
+  /* --- Typographies ---
+     Les variables --font-display-src / --font-body-src sont injectées
+     par next/font dans app/layout.tsx (Nelphim → Cormorant, Caviar Dreams → Josefin Sans).
+     Tailwind génère les utilitaires `font-display` et `font-body` à partir d'ici. */
+  --font-display: var(--font-display-src), ui-serif, Georgia, "Times New Roman", serif;
+  --font-body: var(--font-body-src), ui-sans-serif, system-ui, sans-serif;
+
+  /* --- Easing signature (mouvement doux, façon envol) --- */
+  --ease-bb: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+:root {
+  color-scheme: dark;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  /* Garde-fou : empêche tout scroll horizontal parasite (débordements
+     décoratifs, halos en -inset-x, etc.) sans casser position: fixed/sticky
+     ni l'axe vertical (clip ne crée pas de conteneur de défilement). */
+  overflow-x: clip;
+}
+
+body {
+  background-color: var(--color-bb-black);
+  color: var(--color-bb-white);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  /* Rogne les débordements décoratifs (halos/oiseaux qui bordent hors écran,
+     surtout en mobile) au niveau du body — plus fiable que sur <html>, et
+     n'affecte pas le header fixed (calé sur le viewport, pas sur body).
+     `clip` ne crée pas de conteneur de défilement : l'axe vertical reste intact. */
+  overflow-x: clip;
+}
+
+::selection {
+  background-color: var(--color-bb-red);
+  color: var(--color-bb-white);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}

@@ -19,12 +19,8 @@ export default function MentionsLegales() {
 
       <h2>Éditeur du site</h2>
       <p>
-        Le site est édité par <strong>IBH</strong>, société par actions
-        simplifiée (SAS)
-        {" "}
-        <strong>[forme à confirmer : le registre public indique « SARL » —
-        à mettre en cohérence avec le Kbis]</strong>{" "}
-        au capital de <strong>[À COMPLÉTER] €</strong>.
+        Le site est édité par <strong>IBH</strong>, société à responsabilité
+        limitée (SARL) au capital de <strong>[À COMPLÉTER] €</strong>.
       </p>
       <ul>
         <li>Siège social : 3 place Pasteur, 38000 Grenoble</li>
@@ -38,7 +34,7 @@ export default function MentionsLegales() {
         <li>Code APE / NAF : 70.22Z</li>
         <li>
           Directeur de la publication :{" "}
-          <strong>[À COMPLÉTER — nom du représentant légal]</strong>
+          <strong>[À COMPLÉTER — nom du gérant]</strong>
         </li>
         <li>
           Contact : <strong>[À COMPLÉTER — email]</strong> —{" "}

@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { CONTACT } from "./sections/infos-data";
 
 /** Ancres réellement présentes dans la page (la section Spiritueux a été
@@ -62,6 +63,25 @@ export default function Footer() {
         </p>
 
         <div className="flex w-full flex-col items-center gap-3 border-t border-bb-gray-900/60 pt-8">
+          <nav
+            aria-label="Informations légales"
+            className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2"
+          >
+            {[
+              { href: "/mentions-legales", label: "Mentions légales" },
+              { href: "/cgu", label: "CGU" },
+              { href: "/confidentialite", label: "Confidentialité" },
+            ].map((l) => (
+              <Link
+                key={l.href}
+                href={l.href}
+                className="font-body text-[0.58rem] uppercase tracking-[0.22em] text-bb-white/55 transition-colors duration-300 hover:text-bb-red"
+              >
+                {l.label}
+              </Link>
+            ))}
+          </nav>
+
           {/* Mention obligatoire pour toute communication sur des boissons alcoolisées. */}
           <p className="font-body text-center text-[0.58rem] uppercase tracking-[0.22em] text-bb-gray-500">
             L&apos;abus d&apos;alcool est dangereux pour la santé. À consommer avec

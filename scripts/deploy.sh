@@ -1,36 +1,19 @@
 #!/usr/bin/env bash
-# Déploiement de BluebirdWeb sur le VPS : récupère le code, build, redémarre,
-# préchauffe le cache d'images.
+# Déploiement de BluebirdWeb : dépendances, build, redémarrage, préchauffage
+# du cache d'images.
 #
-# Lancé depuis le serveur par `bash ~/deploy.sh`, qui n'est qu'un lanceur d'une
-# ligne : toute la logique vit ici, versionnée avec le reste du projet.
+# Appelé par `~/deploy.sh` sur le VPS, un lanceur de quelques lignes qui met
+# d'abord le dépôt à jour puis passe la main à ce fichier. La synchronisation
+# git reste volontairement de son côté : ce script est lui-même versionné, et
+# bash lit un script au fil de l'exécution — un `git reset --hard` en cours de
+# route réécrirait le fichier en train d'être lu.
 set -euo pipefail
 
 APP_DIR=/var/www/bluebird
-BRANCH=main
 SERVICE=bluebird
 PORT=3000
 
-# Ce script vit dans le dépôt qu'il va lui-même réinitialiser. Bash lit un
-# script au fil de l'exécution : si `git reset --hard` réécrivait le fichier en
-# cours de route, la suite serait lue de travers. On se relance donc depuis une
-# copie temporaire, hors du dépôt.
-if [ "${BLUEBIRD_DEPLOY_COPIE:-}" != "1" ]; then
-  COPIE=$(mktemp /tmp/bluebird-deploy.XXXXXX)
-  cp "$0" "$COPIE"
-  set +e
-  BLUEBIRD_DEPLOY_COPIE=1 bash "$COPIE" "$@"
-  CODE=$?
-  set -e
-  rm -f "$COPIE"
-  exit $CODE
-fi
-
 log() { echo -e "\n\033[1;34m==> $*\033[0m"; }
-
-log "Récupération des dernières modifications"
-git -C "$APP_DIR" fetch --prune origin
-git -C "$APP_DIR" reset --hard "origin/$BRANCH"
 
 cd "$APP_DIR"
 

@@ -121,7 +121,7 @@ export function LayoutGrid({ cards, className }: Props) {
           className={[
             // Masonry CSS : les tuiles coulent en colonnes, `space-y` fait
             // l'écart vertical, `break-inside-avoid` empêche les coupures.
-            "columns-2 gap-3 space-y-3 sm:gap-4 sm:space-y-4 lg:columns-4",
+            "columns-2 gap-3 space-y-3 sm:gap-4 sm:space-y-4 lg:columns-4 lg:gap-5 lg:space-y-5",
             // Décalages : cassent l'alignement des têtes de colonnes.
             "[&>*:nth-child(4)]:pt-6 [&>*:nth-child(9)]:pt-10",
             "lg:[&>*:nth-child(2)]:pt-8 lg:[&>*:nth-child(4)]:pt-14",

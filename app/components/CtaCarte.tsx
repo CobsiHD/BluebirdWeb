@@ -7,7 +7,7 @@ const EASE_BB = [0.16, 1, 0.3, 1] as const;
 /** CTA de liaison entre le Hero et la suite — mène directement à la carte. */
 export default function CtaCarte() {
   return (
-    <div className="flex justify-center px-6 py-12 sm:py-16">
+    <div className="flex justify-center px-6 py-12 sm:py-16 lg:py-24">
       <motion.a
         href="#carte"
         initial={{ opacity: 0, y: 20 }}

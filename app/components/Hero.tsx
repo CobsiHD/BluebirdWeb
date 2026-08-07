@@ -76,11 +76,11 @@ export default function Hero() {
         initial="hidden"
         animate="show"
         style={reduce ? undefined : { y: contentY, opacity: contentOpacity }}
-        className="relative flex flex-col items-start px-7 pb-16 text-left sm:px-10 sm:pb-20"
+        className="relative mx-auto flex w-full max-w-7xl flex-col items-start px-7 pb-16 text-left sm:px-10 sm:pb-20 lg:px-14 lg:pb-28"
       >
         <motion.span
           variants={item}
-          className="font-body mb-5 text-[0.6rem] uppercase tracking-[0.45em] text-bb-red"
+          className="font-body mb-5 text-[0.6rem] uppercase tracking-[0.45em] text-bb-red lg:mb-7 lg:text-xs"
         >
           Cocktails Bar
         </motion.span>
@@ -91,12 +91,12 @@ export default function Hero() {
             width={809}
             height={148}
             priority
-            className="w-60 sm:w-72"
+            className="w-60 sm:w-72 lg:w-[26rem]"
           />
         </motion.div>
         <motion.p
           variants={item}
-          className="font-display mt-6 max-w-xs text-balance text-xl italic leading-snug text-bb-white/85 sm:text-2xl"
+          className="font-display mt-6 max-w-xs text-balance text-xl italic leading-snug text-bb-white/85 sm:text-2xl lg:mt-8 lg:max-w-lg lg:text-3xl"
         >
           L'élégance du paradoxe, un verre à la fois.
         </motion.p>

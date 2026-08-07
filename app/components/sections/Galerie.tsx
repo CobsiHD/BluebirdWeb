@@ -17,7 +17,7 @@ export default function Galerie() {
   return (
     <section
       id="galerie"
-      className="relative overflow-hidden border-t border-bb-gray-900/60 px-4 py-24 sm:px-6 sm:py-32"
+      className="relative overflow-hidden border-t border-bb-gray-900/60 px-4 py-24 sm:px-6 sm:py-32 lg:px-10 lg:py-40"
     >
       {/* Décor : cœur gravé + halo, dans une zone de hauteur stable ancrée en
           haut (harmonie avec la carte, illustration différente). */}
@@ -43,15 +43,15 @@ export default function Galerie() {
         initial="hidden"
         whileInView="show"
         viewport={{ once: true, margin: "-15%" }}
-        className="mx-auto flex max-w-xl flex-col items-center text-center"
+        className="mx-auto flex max-w-xl flex-col items-center text-center lg:max-w-2xl"
       >
-        <span className="font-body text-[0.7rem] uppercase tracking-[0.4em] text-bb-red">
+        <span className="font-body text-[0.7rem] uppercase tracking-[0.4em] text-bb-red lg:text-xs">
           III · La galerie
         </span>
-        <h2 className="font-display mt-5 text-4xl uppercase leading-none tracking-wide text-bb-white sm:text-6xl">
+        <h2 className="font-display mt-5 text-4xl uppercase leading-none tracking-wide text-bb-white sm:text-6xl lg:text-7xl">
           L&apos;atmosphère
         </h2>
-        <p className="font-body mt-5 max-w-sm text-sm leading-relaxed text-bb-gray-500">
+        <p className="font-body mt-5 max-w-sm text-sm leading-relaxed text-bb-gray-500 lg:max-w-md lg:text-base">
           La pierre, le velours, le cristal et le néon rouge. Un aperçu des
           soirées au Bluebird.
         </p>
@@ -59,7 +59,7 @@ export default function Galerie() {
 
       {/* Chaque tuile gère sa propre apparition : pas d'enveloppe animée ici,
           sinon le mur entier se révélerait d'un bloc. */}
-      <div className="mt-12 sm:mt-16">
+      <div className="mt-12 sm:mt-16 lg:mt-24">
         <LayoutGrid cards={GALLERY} />
       </div>
     </section>

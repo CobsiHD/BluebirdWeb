@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { MENU, type MenuItem } from "./carte-complete-data";
+import type { Menu, MenuItem } from "../../lib/carte-types";
 
 const EASE_BB = [0.16, 1, 0.3, 1] as const;
 
@@ -15,22 +15,24 @@ function priceLabel(item: MenuItem) {
 }
 
 /** Carte complète — accordéon par catégorie (onglet 2 de « La carte »). */
-export default function CarteComplete() {
-  const [open, setOpen] = useState<string | null>(MENU[0].id);
+export default function CarteComplete({ menu }: { menu: Menu }) {
+  // Le visiteur ne voit que les catégories publiées (actives).
+  const categories = menu.categories.filter((c) => c.active);
+  const [open, setOpen] = useState<string | null>(categories[0]?.slug ?? null);
 
   return (
-    <div className="mx-auto max-w-2xl">
-      {MENU.map((cat) => {
-        const isOpen = open === cat.id;
+    <div className="mx-auto max-w-2xl lg:max-w-4xl">
+      {categories.map((cat) => {
+        const isOpen = open === cat.slug;
         return (
-          <div key={cat.id} className="border-b border-bb-gray-900/60">
+          <div key={cat.slug} className="border-b border-bb-gray-900/60">
             <button
               type="button"
-              onClick={() => setOpen(isOpen ? null : cat.id)}
+              onClick={() => setOpen(isOpen ? null : cat.slug)}
               aria-expanded={isOpen}
               className="flex w-full items-center justify-between gap-4 py-5 text-left"
             >
-              <span className="font-display text-2xl uppercase tracking-wide text-bb-white sm:text-3xl">
+              <span className="font-display text-2xl uppercase tracking-wide text-bb-white sm:text-3xl lg:text-4xl">
                 {cat.label}
               </span>
               <motion.span
@@ -60,8 +62,12 @@ export default function CarteComplete() {
                       </p>
                     )}
 
-                    {cat.groups.map((g, gi) => (
-                      <div key={g.title ?? gi} className={gi > 0 ? "mt-8" : ""}>
+                    {cat.groups.map((g, gi) => {
+                      // Le visiteur ne voit que les produits disponibles.
+                      const items = g.items.filter((it) => it.available);
+                      if (items.length === 0) return null;
+                      return (
+                      <div key={g.id} className={gi > 0 ? "mt-8" : ""}>
                         {g.title && (
                           <h4 className="font-body mb-1 text-[0.62rem] uppercase tracking-[0.35em] text-bb-red">
                             {g.title}
@@ -73,9 +79,9 @@ export default function CarteComplete() {
                           </p>
                         )}
                         <ul>
-                          {g.items.map((it) => (
+                          {items.map((it) => (
                             <li
-                              key={it.name}
+                              key={it.id}
                               className="border-b border-bb-gray-900/40 py-3 last:border-0"
                             >
                               <div className="flex items-baseline justify-between gap-4">
@@ -95,7 +101,8 @@ export default function CarteComplete() {
                           ))}
                         </ul>
                       </div>
-                    ))}
+                      );
+                    })}
                   </div>
                 </motion.div>
               )}

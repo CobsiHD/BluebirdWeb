@@ -61,36 +61,84 @@ export default function Header() {
 
   return (
     <>
-      <header className="fixed inset-x-0 top-0 z-50 flex items-center justify-between px-6 py-5 sm:px-8">
-        <a href="#accueil" aria-label="Bluebird — accueil" onClick={() => setOpen(false)}>
-          <Image
-            src="/brand/logos/bb-simple-white.png"
-            alt="Bluebird"
-            width={375}
-            height={542}
-            priority
-            className="h-9 w-auto"
-          />
-        </a>
+      <header className="fixed inset-x-0 top-0 z-50">
+        {/* Voile dégradé : l'en-tête flotte au-dessus de la photo du hero, les
+            liens doivent rester lisibles quelle que soit la zone de l'image. */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-b from-bb-black/85 via-bb-black/40 to-transparent"
+        />
 
-        <button
-          type="button"
-          onClick={() => setOpen((v) => !v)}
-          aria-label={open ? "Fermer le menu" : "Ouvrir le menu"}
-          aria-expanded={open}
-          className="relative z-50 flex h-8 w-9 flex-col items-end justify-center gap-[7px]"
-        >
-          <motion.span
-            className="block h-px w-8 bg-bb-white"
-            animate={open ? { rotate: 45, y: 4 } : { rotate: 0, y: 0 }}
-            transition={{ duration: 0.3, ease: "easeInOut" }}
-          />
-          <motion.span
-            className="block h-px w-6 bg-bb-white"
-            animate={open ? { rotate: -45, y: -4, width: "2rem" } : { rotate: 0, y: 0 }}
-            transition={{ duration: 0.3, ease: "easeInOut" }}
-          />
-        </button>
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-5 sm:px-8 lg:px-10 lg:py-6">
+          <a href="#accueil" aria-label="Bluebird — accueil" onClick={() => setOpen(false)}>
+            <Image
+              src="/brand/logos/bb-simple-white.png"
+              alt="Bluebird"
+              width={375}
+              height={542}
+              priority
+              className="h-9 w-auto lg:h-11"
+            />
+          </a>
+
+          {/* Navigation visible à partir de md — le burger ne sert plus qu'en
+              dessous. Les liens sortants sont repris ici en rouge, sinon ils
+              deviendraient inaccessibles sur grand écran. */}
+          <nav aria-label="Navigation principale" className="hidden items-center md:flex">
+            <ul className="flex items-center gap-7 lg:gap-9">
+              {LINKS.map((l) => (
+                <li key={l.href}>
+                  <a
+                    href={l.href}
+                    className="font-body text-[0.62rem] uppercase tracking-[0.28em] text-bb-white/80 transition-colors duration-300 hover:text-bb-red lg:text-[0.68rem]"
+                  >
+                    {l.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+
+            {LIENS_EXTERNES.length > 0 && (
+              <>
+                <span aria-hidden className="mx-6 h-4 w-px bg-bb-gray-900 lg:mx-8" />
+                <ul className="flex items-center gap-6">
+                  {LIENS_EXTERNES.map((l) => (
+                    <li key={l.href}>
+                      <a
+                        href={l.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="font-body inline-flex items-center gap-1.5 text-[0.62rem] uppercase tracking-[0.28em] text-bb-red transition-opacity duration-300 hover:opacity-70 lg:text-[0.68rem]"
+                      >
+                        {l.label}
+                        <span aria-hidden>↗</span>
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </>
+            )}
+          </nav>
+
+          <button
+            type="button"
+            onClick={() => setOpen((v) => !v)}
+            aria-label={open ? "Fermer le menu" : "Ouvrir le menu"}
+            aria-expanded={open}
+            className="relative z-50 flex h-8 w-9 flex-col items-end justify-center gap-[7px] md:hidden"
+          >
+            <motion.span
+              className="block h-px w-8 bg-bb-white"
+              animate={open ? { rotate: 45, y: 4 } : { rotate: 0, y: 0 }}
+              transition={{ duration: 0.3, ease: "easeInOut" }}
+            />
+            <motion.span
+              className="block h-px w-6 bg-bb-white"
+              animate={open ? { rotate: -45, y: -4, width: "2rem" } : { rotate: 0, y: 0 }}
+              transition={{ duration: 0.3, ease: "easeInOut" }}
+            />
+          </button>
+        </div>
       </header>
 
       <AnimatePresence>
@@ -101,8 +149,10 @@ export default function Header() {
             animate="show"
             exit="exit"
             // `pt-32` réserve la place du bandeau haut : sur un écran court,
-            // les premiers liens ne doivent pas passer dessous.
-            className="fixed inset-0 z-40 flex flex-col items-center justify-center gap-8 bg-bb-black/97 px-6 pb-10 pt-32 backdrop-blur-sm"
+            // les premiers liens ne doivent pas passer dessous. `md:hidden`
+            // évite qu'un menu resté ouvert ne masque tout après un
+            // redimensionnement vers le desktop.
+            className="fixed inset-0 z-40 flex flex-col items-center justify-center gap-8 bg-bb-black/97 px-6 pb-10 pt-32 backdrop-blur-sm md:hidden"
           >
             {LINKS.map((l) => (
               <motion.a

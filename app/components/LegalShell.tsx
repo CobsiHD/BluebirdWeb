@@ -16,7 +16,7 @@ export default function LegalShell({
   children: React.ReactNode;
 }) {
   return (
-    <main className="mx-auto min-h-dvh max-w-3xl px-6 py-14 sm:py-20">
+    <main className="mx-auto min-h-dvh max-w-3xl px-6 py-14 sm:py-20 lg:py-28">
       <div className="flex items-center justify-between gap-4">
         <Link href="/" aria-label="Bluebird — accueil">
           <Image
@@ -36,7 +36,7 @@ export default function LegalShell({
       </div>
 
       <header className="mt-14 border-b border-bb-gray-900/60 pb-8">
-        <h1 className="font-display text-4xl uppercase leading-none tracking-wide text-bb-white sm:text-5xl">
+        <h1 className="font-display text-4xl uppercase leading-none tracking-wide text-bb-white sm:text-5xl lg:text-6xl">
           {title}
         </h1>
         <p className="font-body mt-4 text-[0.62rem] uppercase tracking-[0.3em] text-bb-gray-500">

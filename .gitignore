@@ -17,6 +17,9 @@
 /.next/
 /out/
 
+# Base SQLite locale (dev). En prod, elle vit dans BLUEBIRD_DATA_DIR, hors dépôt.
+/.data/
+
 # production
 /build
 

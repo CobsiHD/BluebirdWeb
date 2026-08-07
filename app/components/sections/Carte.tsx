@@ -3,16 +3,53 @@
 import Image from "next/image";
 import { useState } from "react";
 import { AnimatePresence, motion, type Variants } from "framer-motion";
-import {
-  CORPS,
-  ENVIES,
-  rankCocktails,
-  type CorpsId,
-  type EnvieId,
-} from "./carte-data";
+import type {
+  CorpsId,
+  EnvieId,
+  Menu,
+  ParcoursCocktail,
+} from "../../lib/carte-types";
 import CarteComplete from "./CarteComplete";
 
 const EASE_BB = [0.16, 1, 0.3, 1] as const;
+
+// Libellés d'interface du parcours « Quel oiseau, ce soir ? ». Purement
+// présentiels (aucun contenu de carte), ils restent définis côté client.
+const ENVIES: { id: EnvieId; label: string; hint: string }[] = [
+  { id: "floral", label: "Floral", hint: "rose, sureau, délicat" },
+  { id: "fruite", label: "Fruité", hint: "fruits, frais, acidulé" },
+  { id: "gourmand", label: "Gourmand", hint: "vanille, noisette, rond" },
+  { id: "audacieux", label: "Audacieux", hint: "épicé, inattendu" },
+];
+
+const CORPS: { id: CorpsId; label: string; hint: string }[] = [
+  { id: "leger", label: "Léger", hint: "aérien, à siroter" },
+  { id: "corse", label: "Corsé", hint: "puissant, spiritueux" },
+];
+
+/**
+ * Classe les cocktails (filtrés avec/sans alcool) du plus au moins pertinent,
+ * selon l'envie et le corps choisis. Opère sur les cocktails du parcours reçus
+ * en props (base publiée).
+ */
+function rankCocktails(
+  cocktails: ParcoursCocktail[],
+  envie: EnvieId,
+  corps: CorpsId,
+  sansAlcool: boolean,
+): ParcoursCocktail[] {
+  return cocktails
+    .filter((c) => c.sansAlcool === sansAlcool)
+    .map((c) => ({
+      c,
+      score:
+        (c.envies.includes(envie) ? 2 : 0) +
+        (c.corps === corps ? 1 : 0) +
+        (c.signature ? 0.1 : 0),
+    }))
+    .sort((a, b) => b.score - a.score)
+    .map((x) => x.c);
+}
 
 const stepV: Variants = {
   initial: { opacity: 0, y: 22 },
@@ -41,8 +78,15 @@ const VIEWS: { id: View; label: string }[] = [
   { id: "complete", label: "Carte complète" },
 ];
 
+type CarteProps = {
+  /** Carte publiée, servie à la carte complète. */
+  menu: Menu;
+  /** Cocktails du parcours (base publiée), pour le quiz « Mon cocktail ». */
+  cocktails: ParcoursCocktail[];
+};
+
 /** Section « La carte » — 2 onglets : parcours guidé + carte complète. */
-export default function Carte() {
+export default function Carte({ menu, cocktails }: CarteProps) {
   const [view, setView] = useState<View>("parcours");
 
   const [alcool, setAlcool] = useState<Alcool | null>(null);
@@ -63,7 +107,7 @@ export default function Carte() {
 
   const ranked =
     alcool && envie && corps
-      ? rankCocktails(envie, corps, alcool === "sans")
+      ? rankCocktails(cocktails, envie, corps, alcool === "sans")
       : [];
   const result = ranked[idx];
 
@@ -84,7 +128,7 @@ export default function Carte() {
   return (
     <section
       id="carte"
-      className="relative overflow-hidden border-t border-bb-gray-900/60 px-6 py-24 sm:py-32"
+      className="relative overflow-hidden border-t border-bb-gray-900/60 px-6 py-24 sm:py-32 lg:px-10 lg:py-40"
     >
       {/* Décor : macaron encadré + halo, dans une zone de hauteur FIXE ancrée
           en haut — ainsi le fond ne se décale pas quand la carte complète s'ouvre. */}
@@ -105,17 +149,17 @@ export default function Carte() {
         />
       </div>
 
-      <div className="mx-auto flex max-w-xl flex-col items-center text-center">
-        <span className="font-body text-[0.7rem] uppercase tracking-[0.4em] text-bb-red">
+      <div className="mx-auto flex max-w-xl flex-col items-center text-center lg:max-w-2xl">
+        <span className="font-body text-[0.7rem] uppercase tracking-[0.4em] text-bb-red lg:text-xs">
           II · La carte
         </span>
-        <h2 className="font-display mt-5 text-4xl uppercase leading-none tracking-wide text-bb-white sm:text-6xl">
+        <h2 className="font-display mt-5 text-4xl uppercase leading-none tracking-wide text-bb-white sm:text-6xl lg:text-7xl">
           La carte
         </h2>
       </div>
 
       {/* Onglets */}
-      <div className="mx-auto mt-9 flex w-full max-w-sm gap-1 rounded-full border border-bb-gray-900/70 p-1">
+      <div className="mx-auto mt-9 flex w-full max-w-sm gap-1 rounded-full border border-bb-gray-900/70 p-1 lg:mt-12 lg:max-w-md">
         {VIEWS.map((v) => (
           <button
             key={v.id}
@@ -146,7 +190,7 @@ export default function Carte() {
               Suivez vos envies — on vous désigne le cocktail qui vous ressemble.
             </p>
 
-            <div className="relative mx-auto mt-10 min-h-[27rem] max-w-md">
+            <div className="relative mx-auto mt-10 min-h-[27rem] max-w-md lg:mt-14 lg:min-h-[24rem] lg:max-w-2xl">
               <AnimatePresence mode="wait">
                 {/* Étape 1 — Avec ou sans alcool */}
                 {step === "alcool" && (
@@ -162,9 +206,9 @@ export default function Carte() {
                           variants={optV}
                           type="button"
                           onClick={() => setAlcool(o.id)}
-                          className="group flex items-baseline justify-between rounded-xl border border-bb-gray-900/70 px-6 py-5 text-left transition-colors duration-300 hover:border-bb-red hover:bg-bb-red/[0.06]"
+                          className="group flex items-baseline justify-between rounded-xl border border-bb-gray-900/70 px-6 py-5 text-left transition-colors duration-300 hover:border-bb-red hover:bg-bb-red/[0.06] lg:px-8 lg:py-6"
                         >
-                          <span className="font-display text-2xl leading-none text-bb-white">
+                          <span className="font-display text-2xl leading-none text-bb-white lg:text-3xl">
                             {o.label}
                           </span>
                           <span className="font-body text-[0.65rem] text-bb-gray-500">
@@ -180,16 +224,16 @@ export default function Carte() {
                 {step === "envie" && (
                   <motion.div key="envie" variants={stepV} initial="initial" animate="animate" exit="exit">
                     <StepHead index={2} prompt="Ce soir, une envie…" />
-                    <div className="mt-8 grid grid-cols-2 gap-3">
+                    <div className="mt-8 grid grid-cols-2 gap-3 lg:grid-cols-4 lg:gap-4">
                       {ENVIES.map((e) => (
                         <motion.button
                           key={e.id}
                           variants={optV}
                           type="button"
                           onClick={() => setEnvie(e.id)}
-                          className="group flex flex-col items-start rounded-xl border border-bb-gray-900/70 p-5 text-left transition-colors duration-300 hover:border-bb-red hover:bg-bb-red/[0.06]"
+                          className="group flex flex-col items-start rounded-xl border border-bb-gray-900/70 p-5 text-left transition-colors duration-300 hover:border-bb-red hover:bg-bb-red/[0.06] lg:p-6"
                         >
-                          <span className="font-display text-2xl leading-none text-bb-white">
+                          <span className="font-display text-2xl leading-none text-bb-white lg:text-3xl">
                             {e.label}
                           </span>
                           <span className="font-body mt-2 text-[0.65rem] leading-snug text-bb-gray-500">
@@ -219,9 +263,9 @@ export default function Carte() {
                           variants={optV}
                           type="button"
                           onClick={() => setCorps(c.id)}
-                          className="group flex items-baseline justify-between rounded-xl border border-bb-gray-900/70 px-6 py-5 text-left transition-colors duration-300 hover:border-bb-red hover:bg-bb-red/[0.06]"
+                          className="group flex items-baseline justify-between rounded-xl border border-bb-gray-900/70 px-6 py-5 text-left transition-colors duration-300 hover:border-bb-red hover:bg-bb-red/[0.06] lg:px-8 lg:py-6"
                         >
-                          <span className="font-display text-2xl leading-none text-bb-white">
+                          <span className="font-display text-2xl leading-none text-bb-white lg:text-3xl">
                             {c.label}
                           </span>
                           <span className="font-body text-[0.65rem] text-bb-gray-500">
@@ -288,7 +332,7 @@ export default function Carte() {
                           Sans alcool
                         </span>
                       )}
-                      {result.sensations.map((s) => (
+                      {result.tags.map((s) => (
                         <span
                           key={s}
                           className="font-body rounded-full border border-bb-red/40 px-3 py-1 text-[0.6rem] uppercase tracking-[0.2em] text-bb-red"
@@ -308,7 +352,7 @@ export default function Carte() {
                           <span
                             key={i}
                             className={`h-2 w-2 rounded-full ${
-                              i < result.intensite ? "bg-bb-red" : "border border-bb-gray-500/60"
+                              i < (result.intensite ?? 0) ? "bg-bb-red" : "border border-bb-gray-500/60"
                             }`}
                           />
                         ))}
@@ -404,7 +448,7 @@ export default function Carte() {
                     <h3 className="font-display mt-3 text-3xl uppercase leading-none tracking-wide text-bb-white sm:text-5xl">
                       Pas de coup de cœur&nbsp;?
                     </h3>
-                    <p className="font-body mx-auto mt-5 max-w-md text-sm leading-relaxed text-bb-white/75 sm:text-base">
+                    <p className="font-body mx-auto mt-5 max-w-md text-sm leading-relaxed text-bb-white/75 sm:text-base lg:max-w-lg lg:text-lg">
                       Confiez votre humeur et vos goûts au barman — il compose, à
                       l'instant, le cocktail qui vous ressemble. Un classique, une
                       création, une folie&nbsp;: le bar s'adapte à toutes vos envies.
@@ -422,7 +466,7 @@ export default function Carte() {
         {/* ───────── Onglet 2 — Carte complète ───────── */}
         {view === "complete" && (
           <motion.div key="complete" variants={viewV} initial="initial" animate="animate" exit="exit" className="mt-12">
-            <CarteComplete />
+            <CarteComplete menu={menu} />
           </motion.div>
         )}
       </AnimatePresence>

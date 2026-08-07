@@ -70,7 +70,7 @@ export default function Infos({ children }: { children?: React.ReactNode }) {
   return (
     <section
       id="infos"
-      className="relative overflow-hidden border-t border-bb-gray-900/60 px-6 py-24 sm:py-32"
+      className="relative overflow-hidden border-t border-bb-gray-900/60 px-6 py-24 sm:py-32 lg:px-10 lg:py-40"
     >
       {/* Décor : cage gravée (« le nid ») + halo, zone de hauteur stable ancrée
           en haut — harmonie avec la carte, illustration différente. */}
@@ -96,20 +96,20 @@ export default function Infos({ children }: { children?: React.ReactNode }) {
         initial="hidden"
         whileInView="show"
         viewport={{ once: true, margin: "-15%" }}
-        className="mx-auto flex max-w-xl flex-col items-center text-center"
+        className="mx-auto flex max-w-xl flex-col items-center text-center lg:max-w-2xl"
       >
-        <span className="font-body text-[0.7rem] uppercase tracking-[0.4em] text-bb-red">
+        <span className="font-body text-[0.7rem] uppercase tracking-[0.4em] text-bb-red lg:text-xs">
           IV · Infos
         </span>
-        <h2 className="font-display mt-5 text-4xl uppercase leading-none tracking-wide text-bb-white sm:text-6xl">
+        <h2 className="font-display mt-5 text-4xl uppercase leading-none tracking-wide text-bb-white sm:text-6xl lg:text-7xl">
           Le nid
         </h2>
-        <p className="font-body mt-5 max-w-sm text-sm leading-relaxed text-bb-gray-500">
+        <p className="font-body mt-5 max-w-sm text-sm leading-relaxed text-bb-gray-500 lg:max-w-md lg:text-base">
           Poussez la porte noire. Le reste se passe à l&apos;intérieur.
         </p>
       </motion.div>
 
-      <div className="mx-auto mt-16 grid max-w-4xl gap-12 sm:grid-cols-2 sm:gap-10">
+      <div className="mx-auto mt-16 grid max-w-4xl gap-12 sm:grid-cols-2 sm:gap-10 lg:mt-24 lg:max-w-5xl lg:gap-20">
         {/* Adresse + contact */}
         <motion.div
           variants={reveal}
@@ -118,10 +118,10 @@ export default function Infos({ children }: { children?: React.ReactNode }) {
           viewport={{ once: true, margin: "-10%" }}
           className="flex flex-col items-center text-center sm:items-start sm:text-left"
         >
-          <h3 className="font-body text-[0.6rem] uppercase tracking-[0.35em] text-bb-red">
+          <h3 className="font-body text-[0.6rem] uppercase tracking-[0.35em] text-bb-red lg:text-[0.7rem]">
             L&apos;adresse
           </h3>
-          <address className="font-display mt-4 text-2xl not-italic leading-tight text-bb-white sm:text-3xl">
+          <address className="font-display mt-4 text-2xl not-italic leading-tight text-bb-white sm:text-3xl lg:text-4xl">
             {CONTACT.adresse}
             <br />
             {CONTACT.codePostalVille}
@@ -174,7 +174,7 @@ export default function Infos({ children }: { children?: React.ReactNode }) {
           className="flex flex-col items-center text-center sm:items-start sm:text-left"
         >
           <div className="flex items-center gap-3">
-            <h3 className="font-body text-[0.6rem] uppercase tracking-[0.35em] text-bb-red">
+            <h3 className="font-body text-[0.6rem] uppercase tracking-[0.35em] text-bb-red lg:text-[0.7rem]">
               Les horaires
             </h3>
             {ouvert !== null && (
@@ -200,7 +200,7 @@ export default function Infos({ children }: { children?: React.ReactNode }) {
                     cJour ? "text-bb-white" : "text-bb-white/60"
                   }`}
                 >
-                  <span className="font-body text-sm tracking-wide">{h.jours}</span>
+                  <span className="font-body text-sm tracking-wide lg:text-base">{h.jours}</span>
                   <span
                     className={`font-body text-sm tracking-wide ${
                       h.ouvre ? "text-bb-red" : "text-bb-gray-500"

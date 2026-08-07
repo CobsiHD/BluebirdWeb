@@ -1,6 +1,12 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  /**
+   * better-sqlite3 est un module natif : il doit être chargé via `require`
+   * natif et non passé au bundler (Turbopack). Next le sait déjà par défaut,
+   * on l'inscrit explicitement pour verrouiller ce comportement.
+   */
+  serverExternalPackages: ["better-sqlite3"],
   images: {
     /**
      * AVIF d'abord, WebP en repli pour les navigateurs qui ne le lisent pas

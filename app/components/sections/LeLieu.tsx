@@ -27,7 +27,7 @@ export default function LeLieu() {
     <section
       ref={ref}
       id="le-lieu"
-      className="relative overflow-hidden border-t border-bb-gray-900/60 px-6 py-24 sm:py-32"
+      className="relative overflow-hidden border-t border-bb-gray-900/60 px-6 py-24 sm:py-32 lg:px-10 lg:py-40"
     >
       {/* Intro */}
       <motion.div
@@ -35,18 +35,19 @@ export default function LeLieu() {
         initial="hidden"
         whileInView="show"
         viewport={{ once: true, margin: "-15%" }}
-        className="mx-auto flex max-w-xl flex-col items-center text-center"
+        className="mx-auto flex max-w-xl flex-col items-center text-center lg:max-w-2xl"
       >
-        <span className="font-body text-[0.7rem] uppercase tracking-[0.4em] text-bb-red">
+        <span className="font-body text-[0.7rem] uppercase tracking-[0.4em] text-bb-red lg:text-xs">
           I · Le lieu
         </span>
-        <h2 className="font-display mt-5 text-4xl uppercase leading-none tracking-wide text-bb-white sm:text-6xl">
+        <h2 className="font-display mt-5 text-4xl uppercase leading-none tracking-wide text-bb-white sm:text-6xl lg:text-7xl">
           Le paradoxe
         </h2>
       </motion.div>
 
-      {/* Cœur + texte */}
-      <div className="mx-auto mt-14 flex max-w-2xl flex-col items-center gap-10">
+      {/* Cœur et texte : empilés en mobile, côte à côte à partir de lg — le
+          paradoxe se lit mieux quand l'image et le propos se font face. */}
+      <div className="mx-auto mt-14 flex max-w-2xl flex-col items-center gap-10 lg:mt-20 lg:max-w-5xl lg:flex-row lg:justify-center lg:gap-20">
         <motion.div
           style={reduce ? undefined : { y: heartY }}
           initial={{ opacity: 0, scale: 0.92 }}
@@ -68,7 +69,7 @@ export default function LeLieu() {
             alt="Un oiseau posé sur un cœur, gravure"
             width={1140}
             height={1445}
-            className="h-auto w-52 sm:w-64"
+            className="h-auto w-52 sm:w-64 lg:w-80"
           />
         </motion.div>
 
@@ -77,7 +78,7 @@ export default function LeLieu() {
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, margin: "-12%" }}
-          className="font-body max-w-md text-center text-sm leading-relaxed text-bb-white/75 sm:text-base"
+          className="font-body max-w-md text-center text-sm leading-relaxed text-bb-white/75 sm:text-base lg:text-left lg:text-lg"
         >
           Le Bluebird est né d'un poème de Charles Bukowski. Derrière l'ombre et
           l'élégance, une douceur que l'on dissimule&nbsp;: la vulnérabilité,
@@ -87,8 +88,8 @@ export default function LeLieu() {
       </div>
 
       {/* Vers du poème + cage */}
-      <div className="relative mx-auto mt-24 flex max-w-2xl flex-col items-center gap-12 sm:mt-32">
-        <blockquote className="font-display text-balance text-center text-2xl italic leading-snug text-bb-white sm:text-4xl">
+      <div className="relative mx-auto mt-24 flex max-w-2xl flex-col items-center gap-12 sm:mt-32 lg:mt-40 lg:max-w-5xl lg:flex-row-reverse lg:justify-center lg:gap-24">
+        <blockquote className="font-display text-balance text-center text-2xl italic leading-snug text-bb-white sm:text-4xl lg:text-left lg:text-5xl">
           <Typewriter
             text={"« Il y a dans mon cœur un oiseau bleu\nqui voudrait sortir. »"}
             speed={40}
@@ -116,7 +117,7 @@ export default function LeLieu() {
             alt="Cage en forme de verre à cocktail, gravure"
             width={993}
             height={2571}
-            className="h-auto w-32 opacity-90 sm:w-40"
+            className="h-auto w-32 opacity-90 sm:w-40 lg:w-52"
           />
         </motion.div>
       </div>

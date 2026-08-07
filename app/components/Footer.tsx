@@ -20,15 +20,15 @@ export default function Footer() {
   const annee = new Date().getFullYear();
 
   return (
-    <footer className="border-t border-bb-gray-900/60 px-6 pb-10 pt-16 sm:pt-20">
-      <div className="mx-auto flex max-w-4xl flex-col items-center gap-10">
+    <footer className="border-t border-bb-gray-900/60 px-6 pb-10 pt-16 sm:pt-20 lg:px-10 lg:pb-14 lg:pt-28">
+      <div className="mx-auto flex max-w-4xl flex-col items-center gap-10 lg:max-w-5xl lg:gap-12">
         <a href="#accueil" aria-label="Bluebird — retour en haut">
           <Image
             src="/brand/logos/bluebird-cocktailbar-white.png"
             alt="Bluebird — Cocktail Bar"
             width={810}
             height={251}
-            className="h-auto w-52 opacity-90 transition-opacity duration-500 hover:opacity-100 sm:w-64"
+            className="h-auto w-52 opacity-90 transition-opacity duration-500 hover:opacity-100 sm:w-64 lg:w-72"
           />
         </a>
 
@@ -71,6 +71,7 @@ export default function Footer() {
               { href: "/mentions-legales", label: "Mentions légales" },
               { href: "/cgu", label: "CGU" },
               { href: "/confidentialite", label: "Confidentialité" },
+              { href: "/admin", label: "Admin" },
             ].map((l) => (
               <Link
                 key={l.href}

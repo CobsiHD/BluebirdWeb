@@ -9,6 +9,7 @@ import ActionTiles from "./ActionTiles";
 import ArdoiseEditor from "./ArdoiseEditor";
 import { CategoryFormModal, ProductFormModal } from "./FormDialogs";
 import MenuAccordion from "./MenuAccordion";
+import PasswordDialog from "./PasswordDialog";
 import PublishBar from "./PublishBar";
 import {
   DeleteModal,
@@ -18,7 +19,7 @@ import {
 } from "./StructureDialogs";
 import type { ActionKind, Selection } from "./selection";
 import { resolveSelection } from "./selection";
-import { ToastProvider, useAction, useToast } from "./ui";
+import { Button, ToastProvider, useAction, useToast } from "./ui";
 
 /**
  * ─────────────────────────────────────────────────────────────
@@ -39,6 +40,7 @@ import { ToastProvider, useAction, useToast } from "./ui";
 type Dialog =
   | { kind: "creer-categorie" }
   | { kind: "creer-produit"; group: MenuGroup; category: MenuCategory }
+  | { kind: "mot-de-passe" }
   | { kind: ActionKind };
 
 function DashboardBody({
@@ -154,9 +156,27 @@ function DashboardBody({
 
       <ArdoiseEditor ardoise={ardoise} />
 
+      <section className="mt-10 border-t border-bb-white/15 pt-6">
+        <h2 className="font-display text-xl uppercase tracking-wide text-bb-white">
+          Options
+        </h2>
+        <div className="mt-4 flex flex-wrap items-center justify-between gap-3 rounded-2xl border-2 border-bb-white/25 px-4 py-3">
+          <span className="font-body text-sm text-bb-white">
+            Mot de passe de cet espace
+          </span>
+          <Button onClick={() => setDialog({ kind: "mot-de-passe" })}>
+            Changer
+          </Button>
+        </div>
+      </section>
+
       {editMode && <ActionMenu selected={selected} onAction={onAction} />}
 
       {/* ── Modales ─────────────────────────────────────────────────────── */}
+
+      {dialog?.kind === "mot-de-passe" && (
+        <PasswordDialog onClose={() => setDialog(null)} />
+      )}
 
       {dialog?.kind === "creer-categorie" && (
         <CategoryFormModal onClose={() => setDialog(null)} />

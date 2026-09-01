@@ -43,6 +43,9 @@ function normalize(menu: Menu) {
 /** Nom du bar affiché dans l'en-tête. */
 const BAR_NAME = "Bluebird";
 
+/** Logiciel de caisse, hébergé sur un sous-domaine : ouvert dans un onglet. */
+const CAISSE_URL = "https://caisse.bluebird-bar.fr";
+
 export default function AdminDashboard() {
   const active = getActiveMenu();
   const editable = getEditableCarte();
@@ -67,6 +70,14 @@ export default function AdminDashboard() {
         </div>
 
         <div className="flex items-center gap-5">
+          <a
+            href={CAISSE_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-body rounded-full border border-bb-red/60 px-5 py-2.5 text-[0.6rem] uppercase tracking-[0.3em] text-bb-red transition-colors hover:border-bb-red hover:bg-bb-red hover:text-bb-white"
+          >
+            Caisse ↗
+          </a>
           <Link
             href="/"
             className="font-body text-[0.6rem] uppercase tracking-[0.3em] text-bb-white/60 transition-colors hover:text-bb-red"
